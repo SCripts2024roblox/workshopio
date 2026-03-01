@@ -6,434 +6,163 @@
 <title>Workshop.IO</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0a;
-    --bg2: #111111;
-    --bg3: #1a1a1a;
-    --bg4: #222222;
-    --border: #2a2a2a;
-    --border2: #333333;
-    --text: #f0f0f0;
-    --text2: #999999;
-    --text3: #555555;
-    --accent: #ffffff;
-    --hover: #1e1e1e;
-    --green: #4caf50;
-    --red: #f44336;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family:'DM Sans',sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
-  }
-
-  /* ── TOPBAR ── */
-  .topbar {
-    display:flex;
-    align-items:center;
-    padding:0 20px;
-    height:48px;
-    background:var(--bg2);
-    border-bottom:1px solid var(--border);
-    flex-shrink:0;
-    gap:16px;
-  }
-  .logo {
-    font-family:'Space Mono',monospace;
-    font-size:14px;
-    font-weight:700;
-    letter-spacing:.08em;
-    color:var(--accent);
-    white-space:nowrap;
-  }
-  .logo span { color:var(--text3); }
-  .topbar-search {
-    flex:1; max-width:340px; height:28px;
-    background:var(--bg3); border:1px solid var(--border); border-radius:4px;
-    color:var(--text); padding:0 10px;
-    font-family:'DM Sans',sans-serif; font-size:12px; outline:none;
-    transition:border-color .15s;
-  }
-  .topbar-search::placeholder { color:var(--text3); }
-  .topbar-search:focus { border-color:var(--border2); }
-  .topbar-right { margin-left:auto; display:flex; gap:8px; align-items:center; }
-  .topbar-status {
-    font-family:'Space Mono',monospace;
-    font-size:10px; color:var(--text3); letter-spacing:.06em;
-    display:flex; align-items:center; gap:5px;
-  }
-  .status-dot {
-    width:6px; height:6px; border-radius:50%;
-    background:var(--text3); transition:background .3s;
-  }
-  .status-dot.online { background:var(--green); }
-
-  /* ── LAYOUT ── */
-  .layout { display:flex; flex:1; overflow:hidden; }
-
-  /* ── SIDEBAR ── */
-  .sidebar {
-    width:200px; background:var(--bg2);
-    border-right:1px solid var(--border);
-    display:flex; flex-direction:column; flex-shrink:0;
-  }
-  .sidebar-section { padding:16px 12px 6px; }
-  .sidebar-label {
-    font-family:'Space Mono',monospace; font-size:9px;
-    letter-spacing:.15em; color:var(--text3);
-    text-transform:uppercase; padding:0 8px; margin-bottom:4px;
-  }
-  .nav-item {
-    display:flex; align-items:center; gap:10px;
-    padding:8px 10px; border-radius:5px; cursor:pointer;
-    font-size:13px; color:var(--text2);
-    transition:all .12s; user-select:none;
-  }
-  .nav-item:hover { background:var(--hover); color:var(--text); }
-  .nav-item.active { background:var(--bg3); color:var(--accent); }
-  .nav-icon { width:16px; height:16px; display:flex; align-items:center; justify-content:center; opacity:.7; font-size:13px; }
-  .nav-item.active .nav-icon { opacity:1; }
-
-  /* ── MAIN ── */
-  .main { flex:1; overflow:hidden; display:flex; flex-direction:column; }
-  .view { display:none; flex-direction:column; height:100%; overflow:hidden; }
-  .view.active { display:flex; }
-
-  /* ── GAMES ── */
-  .page-header { padding:20px 24px 0; flex-shrink:0; }
-  .page-title { font-family:'Space Mono',monospace; font-size:18px; font-weight:700; letter-spacing:.04em; margin-bottom:4px; }
-  .page-sub { font-size:12px; color:var(--text3); }
-  .scroll-area { flex:1; overflow-y:auto; padding:16px 24px 24px; }
-  .scroll-area::-webkit-scrollbar { width:4px; }
-  .scroll-area::-webkit-scrollbar-track { background:transparent; }
-  .scroll-area::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
-
-  .lib-title {
-    font-family:'Space Mono',monospace; font-size:10px;
-    letter-spacing:.12em; color:var(--text3); text-transform:uppercase;
-    margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:8px;
-  }
-  .games-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px; }
-  .game-card {
-    background:var(--bg2); border:1px solid var(--border);
-    border-radius:6px; overflow:hidden; cursor:pointer; transition:all .15s;
-  }
-  .game-card:hover { border-color:var(--border2); transform:translateY(-1px); }
-  .game-thumb {
-    height:90px; background:var(--bg3);
-    display:flex; align-items:center; justify-content:center;
-    border-bottom:1px solid var(--border);
-  }
-  .game-thumb-logo {
-    font-family:'Space Mono',monospace; font-size:20px;
-    font-weight:700; color:var(--text3); letter-spacing:-.02em;
-  }
-  .game-body { padding:10px; }
-  .game-name { font-size:12px; font-weight:700; margin-bottom:2px; }
-  .game-meta { font-size:10px; color:var(--text3); }
-
-  /* ── ROBLOX ── */
-  .roblox-header {
-    padding:16px 24px 0;
-    border-bottom:1px solid var(--border); flex-shrink:0;
-  }
-  .breadcrumb {
-    display:flex; align-items:center; gap:6px;
-    font-size:11px; color:var(--text3); margin-bottom:10px;
-  }
-  .breadcrumb a { color:var(--text2); cursor:pointer; text-decoration:none; }
-  .breadcrumb a:hover { color:var(--text); }
-  .roblox-title-row { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
-  .roblox-icon {
-    width:36px; height:36px; background:var(--bg3);
-    border:1px solid var(--border); border-radius:6px;
-    display:flex; align-items:center; justify-content:center;
-    font-family:'Space Mono',monospace; font-size:12px; font-weight:700; color:var(--text2);
-  }
-  .roblox-name { font-family:'Space Mono',monospace; font-size:16px; font-weight:700; }
-  .roblox-tabs { display:flex; }
-  .roblox-tab {
-    padding:8px 14px; font-size:12px; color:var(--text3);
-    cursor:pointer; border-bottom:2px solid transparent; transition:all .12s; user-select:none;
-  }
-  .roblox-tab:hover { color:var(--text2); }
-  .roblox-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
-
-  .addons-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:12px; }
-  .addon-card {
-    background:var(--bg2); border:1px solid var(--border);
-    border-radius:6px; overflow:hidden; cursor:pointer; transition:all .15s;
-  }
-  .addon-card:hover { border-color:var(--border2); transform:translateY(-1px); }
-  .addon-thumb {
-    height:100px; background:var(--bg3);
-    display:flex; align-items:center; justify-content:center;
-    border-bottom:1px solid var(--border);
-  }
-  .addon-thumb-label {
-    font-family:'Space Mono',monospace; font-size:11px;
-    color:var(--text3); text-align:center; padding:10px; line-height:1.5;
-  }
-  .addon-body { padding:10px; }
-  .addon-name { font-size:12px; font-weight:700; margin-bottom:2px; }
-  .addon-meta { font-size:10px; color:var(--text3); }
-
-  /* ── DETAIL ── */
-  .detail-scroll { flex:1; overflow-y:auto; }
-  .detail-scroll::-webkit-scrollbar { width:4px; }
-  .detail-scroll::-webkit-scrollbar-track { background:transparent; }
-  .detail-scroll::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
-
-  .banner {
-    width:100%; height:160px; background:var(--bg3);
-    border-bottom:1px solid var(--border);
-    display:flex; align-items:center; justify-content:center;
-    position:relative; overflow:hidden;
-  }
-  .banner-pattern {
-    position:absolute; inset:0;
-    background-image:
-      repeating-linear-gradient(0deg,transparent,transparent 30px,var(--border) 30px,var(--border) 31px),
-      repeating-linear-gradient(90deg,transparent,transparent 30px,var(--border) 30px,var(--border) 31px);
-    opacity:.3;
-  }
-  .banner-label {
-    position:relative; font-family:'Space Mono',monospace;
-    font-size:28px; font-weight:700; color:var(--text3); letter-spacing:.06em; z-index:1;
-  }
-  .banner-crumb {
-    position:absolute; bottom:14px; left:24px;
-    font-size:11px; color:var(--text3); z-index:1;
-  }
-
-  .detail-body { display:flex; gap:0; padding:24px; }
-  .detail-left { flex:1; min-width:0; }
-  .detail-right {
-    width:240px; flex-shrink:0;
-    padding-left:24px; border-left:1px solid var(--border); margin-left:24px;
-  }
-
-  .detail-bc { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text3); margin-bottom:16px; }
-  .detail-bc a { color:var(--text2); cursor:pointer; text-decoration:none; }
-  .detail-bc a:hover { color:var(--text); }
-  .detail-title { font-family:'Space Mono',monospace; font-size:22px; font-weight:700; margin-bottom:6px; line-height:1.2; }
-  .detail-byline { font-size:12px; color:var(--text3); margin-bottom:16px; }
-  .detail-tags { display:flex; gap:6px; margin-bottom:20px; flex-wrap:wrap; }
-  .tag {
-    background:var(--bg3); border:1px solid var(--border); border-radius:3px;
-    padding:2px 8px; font-size:10px; color:var(--text2);
-    font-family:'Space Mono',monospace; letter-spacing:.04em;
-  }
-  .detail-desc { font-size:13px; line-height:1.7; color:var(--text2); margin-bottom:24px; }
-
-  /* ── DOWNLOAD BOX ── */
-  .dl-box {
-    background:var(--bg2); border:1px solid var(--border);
-    border-radius:6px; padding:16px; margin-bottom:16px;
-  }
-  .dl-box-title {
-    font-family:'Space Mono',monospace; font-size:11px;
-    color:var(--text3); margin-bottom:12px;
-    letter-spacing:.08em; text-transform:uppercase;
-  }
-  .btn-dl {
-    width:100%; height:40px; background:var(--accent); border:none; border-radius:5px;
-    color:#000; font-family:'Space Mono',monospace; font-size:12px;
-    font-weight:700; letter-spacing:.08em; cursor:pointer;
-    transition:all .12s; display:flex; align-items:center; justify-content:center; gap:8px;
-  }
-  .btn-dl:hover { background:#e0e0e0; transform:translateY(-1px); }
-  .btn-dl:active { transform:translateY(0); }
-  .btn-dl.loading { background:var(--bg3); color:var(--text2); cursor:default; transform:none; border:1px solid var(--border); }
-  .btn-dl.done { background:var(--bg3); color:var(--green); cursor:default; border:1px solid #2a4a2a; }
-
-  .progress-wrap { margin-top:10px; display:none; }
-  .progress-wrap.show { display:block; }
-  .progress-label { font-size:10px; color:var(--text3); margin-bottom:4px; font-family:'Space Mono',monospace; }
-  .progress-bar { height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
-  .progress-fill { height:100%; background:var(--accent); border-radius:2px; width:0%; transition:width .1s linear; }
-
-  .file-info { margin-top:10px; display:flex; flex-direction:column; gap:4px; }
-  .fi-row { display:flex; justify-content:space-between; font-size:11px; }
-  .fi-row .k { color:var(--text3); }
-  .fi-row .v { color:var(--text2); font-family:'Space Mono',monospace; }
-  .dl-count { font-size:10px; color:var(--text3); margin-top:6px; text-align:center; font-family:'Space Mono',monospace; }
-
-  /* ── META SIDEBAR ── */
-  .meta-block { margin-bottom:16px; }
-  .meta-block-title {
-    font-family:'Space Mono',monospace; font-size:9px;
-    letter-spacing:.15em; color:var(--text3); text-transform:uppercase; margin-bottom:8px;
-  }
-  .meta-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid var(--border); font-size:11px; }
-  .meta-row .mk { color:var(--text3); }
-  .meta-row .mv { color:var(--text2); font-family:'Space Mono',monospace; }
-  .path-box {
-    background:var(--bg3); border:1px solid var(--border); border-radius:4px;
-    padding:8px 10px; font-family:'Space Mono',monospace;
-    font-size:10px; color:var(--text2); line-height:1.8;
-  }
-
-  /* ── REVIEWS ── */
-  .reviews-wrap { margin-top:8px; }
-  .reviews-hdr { font-family:'Space Mono',monospace; font-size:12px; font-weight:700; margin-bottom:14px; }
-  .loading-reviews { font-size:11px; color:var(--text3); font-family:'Space Mono',monospace; padding:16px 0; }
-
-  .review-card {
-    background:var(--bg2); border:1px solid var(--border);
-    border-radius:5px; padding:12px 14px; margin-bottom:8px; transition:border-color .12s;
-  }
-  .review-card:hover { border-color:var(--border2); }
-  .review-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
-  .review-user { display:flex; align-items:center; gap:8px; }
-  .review-avatar {
-    width:24px; height:24px; background:var(--bg4); border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-size:10px; font-weight:700; color:var(--text2); border:1px solid var(--border);
-  }
-  .review-uname { font-size:12px; font-weight:600; }
-  .review-right { display:flex; align-items:center; gap:10px; }
-  .review-stars { color:var(--text2); font-size:11px; letter-spacing:1px; }
-  .review-date { font-size:10px; color:var(--text3); font-family:'Space Mono',monospace; }
-  .review-text { font-size:12px; color:var(--text2); line-height:1.6; }
-
-  .add-review {
-    background:var(--bg2); border:1px solid var(--border);
-    border-radius:5px; padding:14px; margin-top:12px;
-  }
-  .add-review-title { font-size:11px; font-weight:600; color:var(--text2); margin-bottom:10px; }
-  .review-input-row { display:flex; gap:8px; margin-bottom:8px; align-items:center; }
-  .r-input {
-    flex:1; height:30px; background:var(--bg3); border:1px solid var(--border); border-radius:4px;
-    color:var(--text); padding:0 10px; font-family:'DM Sans',sans-serif; font-size:12px;
-    outline:none; transition:border-color .12s;
-  }
-  .r-input:focus { border-color:var(--border2); }
-  .r-input::placeholder { color:var(--text3); }
-  .stars-select { display:flex; gap:3px; align-items:center; }
-  .star-btn {
-    background:none; border:none; cursor:pointer;
-    font-size:18px; color:var(--text3); transition:color .1s; padding:0 1px; line-height:1;
-  }
-  .star-btn.on { color:var(--text); }
-  .r-textarea {
-    width:100%; height:60px; background:var(--bg3); border:1px solid var(--border);
-    border-radius:4px; color:var(--text); padding:8px 10px;
-    font-family:'DM Sans',sans-serif; font-size:12px; outline:none; resize:none;
-    transition:border-color .12s; margin-bottom:8px;
-  }
-  .r-textarea:focus { border-color:var(--border2); }
-  .r-textarea::placeholder { color:var(--text3); }
-  .btn-post {
-    height:30px; padding:0 14px; background:var(--bg3);
-    border:1px solid var(--border); border-radius:4px;
-    color:var(--text2); font-family:'Space Mono',monospace; font-size:10px;
-    letter-spacing:.06em; cursor:pointer; transition:all .12s;
-  }
-  .btn-post:hover { background:var(--hover); color:var(--text); border-color:var(--border2); }
-  .btn-post:disabled { opacity:.4; cursor:default; }
-
-  /* ── CHAT ── */
-  .empty-state {
-    display:flex; flex-direction:column;
-    align-items:center; justify-content:center;
-    height:100%; gap:10px;
-  }
-  .empty-icon { font-size:32px; color:var(--text3); }
-  .empty-text { font-size:13px; color:var(--text3); font-family:'Space Mono',monospace; }
-
-  /* ── SETTINGS ── */
-  .settings-wrap { padding:24px; overflow-y:auto; flex:1; }
-  .settings-title { font-family:'Space Mono',monospace; font-size:18px; font-weight:700; margin-bottom:20px; }
-  .setting-row {
-    display:flex; align-items:center; justify-content:space-between;
-    padding:12px 0; border-bottom:1px solid var(--border);
-  }
-  .setting-label { font-size:13px; }
-  .setting-desc { font-size:11px; color:var(--text3); margin-top:2px; }
-  .toggle {
-    width:36px; height:20px; background:var(--bg4);
-    border:1px solid var(--border2); border-radius:10px; cursor:pointer;
-    position:relative; transition:background .15s; flex-shrink:0;
-  }
-  .toggle::after {
-    content:''; position:absolute; top:2px; left:2px;
-    width:14px; height:14px; background:var(--text3);
-    border-radius:50%; transition:all .15s;
-  }
-  .toggle.on { background:var(--text2); }
-  .toggle.on::after { left:18px; background:var(--accent); }
-
-  /* ── TOAST ── */
-  .toast {
-    position:fixed; bottom:24px; right:24px;
-    background:var(--bg3); border:1px solid var(--border2); border-radius:5px;
-    padding:10px 16px; font-size:12px; font-family:'Space Mono',monospace; color:var(--text2);
-    z-index:999; transform:translateY(60px); opacity:0;
-    transition:all .2s; pointer-events:none;
-  }
-  .toast.show { transform:translateY(0); opacity:1; }
-  .toast.error { border-color:#4a2a2a; color:var(--red); }
+  :root{--bg:#0a0a0a;--bg2:#111111;--bg3:#1a1a1a;--bg4:#222222;--border:#2a2a2a;--border2:#333333;--text:#f0f0f0;--text2:#999999;--text3:#444444;--accent:#ffffff}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+  .topbar{display:flex;align-items:center;height:48px;padding:0 20px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;gap:14px}
+  .logo{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.07em;color:var(--accent);white-space:nowrap;user-select:none}
+  .logo em{color:var(--text3);font-style:normal}
+  .topbar-search{flex:1;max-width:320px;height:28px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);padding:0 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color .15s}
+  .topbar-search::placeholder{color:var(--text3)}
+  .topbar-search:focus{border-color:var(--border2)}
+  .topbar-right{margin-left:auto}
+  .topbar-chip{height:26px;padding:0 10px;background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--text3);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.05em;display:flex;align-items:center}
+  .layout{display:flex;flex:1;overflow:hidden}
+  .sidebar{width:196px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;padding:14px 10px;gap:2px}
+  .sidebar-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;color:var(--text3);text-transform:uppercase;padding:10px 8px 5px}
+  .nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:5px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .12s;user-select:none}
+  .nav-item:hover{background:#161616;color:var(--text)}
+  .nav-item.active{background:var(--bg3);color:var(--accent)}
+  .nav-icon{font-size:12px;width:16px;text-align:center;opacity:.6}
+  .nav-item.active .nav-icon{opacity:1}
+  .sidebar-bottom{margin-top:auto;padding:10px 8px 0;border-top:1px solid var(--border)}
+  .sidebar-status{font-size:10px;color:var(--text3);font-family:'Space Mono',monospace;display:flex;align-items:center;gap:6px}
+  .status-dot{width:6px;height:6px;border-radius:50%;background:#888;flex-shrink:0}
+  .main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+  .view{display:none;flex-direction:column;height:100%;overflow:hidden}
+  .view.active{display:flex}
+  .scroll-area{flex:1;overflow-y:auto}
+  .scroll-area::-webkit-scrollbar{width:4px}
+  .scroll-area::-webkit-scrollbar-track{background:transparent}
+  .scroll-area::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+  .page-head{padding:22px 26px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+  .page-title{font-family:'Space Mono',monospace;font-size:17px;font-weight:700;letter-spacing:.03em;margin-bottom:3px}
+  .page-sub{font-size:12px;color:var(--text3)}
+  .section{padding:20px 26px}
+  .section-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;color:var(--text3);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
+  .game-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;cursor:pointer;transition:all .14s}
+  .game-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+  .game-thumb{height:88px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:22px;font-weight:700;color:var(--text3)}
+  .game-info{padding:10px}
+  .game-name{font-size:12px;font-weight:700;margin-bottom:2px}
+  .game-meta{font-size:10px;color:var(--text3)}
+  .view-head{padding:16px 26px;border-bottom:1px solid var(--border);flex-shrink:0}
+  .breadcrumb{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);margin-bottom:12px}
+  .breadcrumb a{color:var(--text2);cursor:pointer}
+  .breadcrumb a:hover{color:var(--text)}
+  .game-header-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .game-badge{width:38px;height:38px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--text2)}
+  .game-view-name{font-family:'Space Mono',monospace;font-size:15px;font-weight:700}
+  .tabs{display:flex}
+  .tab{padding:7px 14px;font-size:12px;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all .12s;user-select:none}
+  .tab:hover{color:var(--text2)}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .addons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px;padding:20px 26px}
+  .addon-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;cursor:pointer;transition:all .14s}
+  .addon-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+  .addon-thumb{height:100px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+  .addon-thumb-txt{font-family:'Space Mono',monospace;font-size:10px;color:var(--text3);text-align:center;line-height:1.8;letter-spacing:.06em}
+  .addon-info{padding:10px}
+  .addon-name{font-size:12px;font-weight:700;margin-bottom:2px}
+  .addon-meta{font-size:10px;color:var(--text3)}
+  .detail-banner{width:100%;height:154px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0}
+  .banner-grid{position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 28px,var(--border) 28px,var(--border) 29px),repeating-linear-gradient(90deg,transparent,transparent 28px,var(--border) 28px,var(--border) 29px);opacity:.25}
+  .banner-center{position:relative;z-index:1;text-align:center}
+  .banner-title{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--text3);letter-spacing:.1em}
+  .banner-hint{font-size:11px;color:var(--text3);margin-top:4px;letter-spacing:.06em}
+  .banner-corner{position:absolute;bottom:10px;right:16px;font-size:10px;color:var(--text3);font-family:'Space Mono',monospace}
+  .detail-body{display:flex;gap:0;padding:24px 26px}
+  .detail-left{flex:1;min-width:0;padding-right:24px}
+  .detail-right{width:232px;flex-shrink:0;border-left:1px solid var(--border);padding-left:24px}
+  .detail-bc{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);margin-bottom:14px}
+  .detail-bc a{color:var(--text2);cursor:pointer}
+  .detail-bc a:hover{color:var(--text)}
+  .detail-title{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;line-height:1.2;margin-bottom:5px}
+  .detail-byline{font-size:12px;color:var(--text3);margin-bottom:14px}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+  .tag{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:2px 8px;font-size:10px;color:var(--text2);font-family:'Space Mono',monospace;letter-spacing:.04em}
+  .detail-desc{font-size:13px;line-height:1.75;color:var(--text2)}
+  .dl-box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:14px}
+  .dl-box-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--text3);text-transform:uppercase;margin-bottom:10px}
+  .btn-dl{width:100%;height:40px;background:var(--accent);border:none;border-radius:5px;color:#000;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.08em;cursor:pointer;transition:all .13s;display:flex;align-items:center;justify-content:center;gap:7px}
+  .btn-dl:hover{background:#ddd;transform:translateY(-1px)}
+  .btn-dl:active{transform:translateY(0)}
+  .btn-dl.loading{background:var(--bg3);color:var(--text2);border:1px solid var(--border);cursor:default;transform:none}
+  .btn-dl.done{background:var(--bg3);color:#4caf50;border:1px solid #2a4a2a;cursor:default}
+  .progress-wrap{display:none;margin-top:10px}
+  .progress-wrap.show{display:block}
+  .progress-lbl{font-size:10px;color:var(--text3);font-family:'Space Mono',monospace;margin-bottom:4px;display:flex;justify-content:space-between}
+  .progress-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+  .progress-fill{height:100%;width:0%;background:var(--accent);transition:width .1s linear;border-radius:2px}
+  .dl-meta{margin-top:10px;display:flex;flex-direction:column;gap:4px}
+  .dl-meta-row{display:flex;justify-content:space-between;font-size:11px}
+  .dl-meta-row .k{color:var(--text3)}
+  .dl-meta-row .v{color:var(--text2);font-family:'Space Mono',monospace;font-size:10px}
+  .dl-count{margin-top:12px;font-size:11px;color:var(--text3);font-family:'Space Mono',monospace;text-align:center}
+  .dl-count span{color:var(--text2)}
+  .meta-block{margin-bottom:16px}
+  .meta-head{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--text3);text-transform:uppercase;margin-bottom:8px}
+  .meta-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:11px}
+  .meta-row .mk{color:var(--text3)}
+  .meta-row .mv{color:var(--text2);font-family:'Space Mono',monospace}
+  .path-box{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:'Space Mono',monospace;font-size:10px;color:var(--text2);line-height:1.9}
+  .chat-placeholder{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+  .chat-ph-icon{font-size:30px;color:var(--text3)}
+  .chat-ph-text{font-size:12px;color:var(--text3);font-family:'Space Mono',monospace;letter-spacing:.06em}
+  .setting-row{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--border)}
+  .setting-lbl{font-size:13px}
+  .setting-desc{font-size:11px;color:var(--text3);margin-top:2px}
+  .toggle{width:36px;height:20px;background:var(--bg4);border:1px solid var(--border2);border-radius:10px;cursor:pointer;position:relative;transition:background .15s;flex-shrink:0}
+  .toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;background:var(--text3);border-radius:50%;transition:all .15s}
+  .toggle.on{background:#2a3a2a;border-color:#3a5a3a}
+  .toggle.on::after{left:18px;background:#4caf50}
+  .toast{position:fixed;bottom:22px;right:22px;background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:9px 15px;font-size:12px;font-family:'Space Mono',monospace;color:var(--text2);z-index:999;transform:translateY(50px);opacity:0;transition:all .2s;pointer-events:none}
+  .toast.show{transform:translateY(0);opacity:1}
+  .toast.err{border-color:#5a2a2a;color:#e57373}
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
-  <div class="logo">Workshop<span>.IO</span></div>
-  <input class="topbar-search" type="text" placeholder="Search games, mods...">
+  <div class="logo">Workshop<em>.IO</em></div>
+  <input class="topbar-search" type="text" placeholder="Search games, addons...">
   <div class="topbar-right">
-    <div class="topbar-status">
-      <div class="status-dot" id="status-dot"></div>
-      <span id="status-text">connecting...</span>
-    </div>
+    <div class="topbar-chip">v0.1.0-beta</div>
   </div>
 </div>
 
-<!-- LAYOUT -->
 <div class="layout">
-
-  <!-- SIDEBAR -->
   <div class="sidebar">
-    <div class="sidebar-section">
-      <div class="sidebar-label">Navigation</div>
-      <div class="nav-item active" onclick="showView('games')" id="nav-games">
-        <span class="nav-icon">◈</span> Games
-      </div>
-      <div class="nav-item" onclick="showView('chat')" id="nav-chat">
-        <span class="nav-icon">◉</span> Chat
-      </div>
-      <div class="nav-item" onclick="showView('settings')" id="nav-settings">
-        <span class="nav-icon">◎</span> Settings
+    <div class="sidebar-label">Menu</div>
+    <div class="nav-item active" onclick="nav('games')"><span class="nav-icon">◈</span> Games</div>
+    <div class="nav-item" onclick="nav('chat')"><span class="nav-icon">◉</span> Chat</div>
+    <div class="nav-item" onclick="nav('settings')"><span class="nav-icon">◎</span> Settings</div>
+    <div class="sidebar-bottom">
+      <div class="sidebar-status">
+        <div class="status-dot" id="status-dot"></div>
+        <span id="server-status">connecting...</span>
       </div>
     </div>
   </div>
 
-  <!-- MAIN -->
   <div class="main">
 
-    <!-- GAMES VIEW -->
+    <!-- GAMES -->
     <div class="view active" id="view-games">
-      <div class="page-header">
+      <div class="page-head">
         <div class="page-title">Games</div>
-        <div class="page-sub">Browse and manage your installed games</div>
+        <div class="page-sub">Browse games and manage addons</div>
       </div>
       <div class="scroll-area">
-        <div style="margin-bottom:28px">
-          <div class="lib-title">Library</div>
+        <div class="section">
+          <div class="section-title">Library</div>
           <div class="games-grid">
-            <div class="game-card" onclick="showView('roblox')">
-              <div class="game-thumb">
-                <div class="game-thumb-logo">RBX</div>
-              </div>
-              <div class="game-body">
+            <div class="game-card" onclick="nav('roblox')">
+              <div class="game-thumb">RBX</div>
+              <div class="game-info">
                 <div class="game-name">Roblox</div>
-                <div class="game-meta">1 addon</div>
+                <div class="game-meta">1 addon available</div>
               </div>
             </div>
           </div>
@@ -441,109 +170,82 @@
       </div>
     </div>
 
-    <!-- ROBLOX VIEW -->
+    <!-- ROBLOX -->
     <div class="view" id="view-roblox">
-      <div class="roblox-header">
-        <div class="breadcrumb">
-          <a onclick="showView('games')">← Games</a>
-          <span>/</span><span>Roblox</span>
+      <div class="view-head">
+        <div class="breadcrumb"><a onclick="nav('games')">← Games</a> / <span>Roblox</span></div>
+        <div class="game-header-row">
+          <div class="game-badge">RBX</div>
+          <div class="game-view-name">Roblox</div>
         </div>
-        <div class="roblox-title-row">
-          <div class="roblox-icon">RBX</div>
-          <div class="roblox-name">Roblox</div>
-        </div>
-        <div class="roblox-tabs">
-          <div class="roblox-tab active">All Addons</div>
-        </div>
+        <div class="tabs"><div class="tab active">All Addons</div></div>
       </div>
       <div class="scroll-area">
         <div class="addons-grid">
-          <div class="addon-card" onclick="showView('detail')">
+          <div class="addon-card" onclick="nav('detail')">
             <div class="addon-thumb">
-              <div class="addon-thumb-label">TRIDENT<br>SURVIVAL<br>— head —</div>
+              <div class="addon-thumb-txt">TRIDENT<br>SURVIVAL<br>— HEAD —</div>
             </div>
-            <div class="addon-body">
+            <div class="addon-info">
               <div class="addon-name">Head for Trident Survival</div>
-              <div class="addon-meta">head.mesh · 1 file</div>
+              <div class="addon-meta">head.mesh · free</div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- DETAIL VIEW -->
+    <!-- DETAIL -->
     <div class="view" id="view-detail">
-      <div class="detail-scroll">
-
-        <div class="banner">
-          <div class="banner-pattern"></div>
-          <div class="banner-label">TRIDENT SURVIVAL</div>
-          <div class="banner-crumb">Roblox / Head for Trident Survival</div>
+      <div class="detail-banner">
+        <div class="banner-grid"></div>
+        <div class="banner-center">
+          <div class="banner-title">TRIDENT SURVIVAL</div>
+          <div class="banner-hint">Head Mesh · Roblox</div>
         </div>
-
+        <div class="banner-corner">NO IMAGE YET</div>
+      </div>
+      <div class="scroll-area">
         <div class="detail-body">
           <div class="detail-left">
             <div class="detail-bc">
-              <a onclick="showView('games')">Games</a>
-              <span>/</span>
-              <a onclick="showView('roblox')">Roblox</a>
-              <span>/</span>
+              <a onclick="nav('games')">Games</a> /
+              <a onclick="nav('roblox')">Roblox</a> /
               <span>Head for Trident Survival</span>
             </div>
             <div class="detail-title">Head for Trident Survival</div>
-            <div class="detail-byline">by Workshop.IO · Roblox mod</div>
-            <div class="detail-tags">
+            <div class="detail-byline">by Workshop.IO · Roblox addon</div>
+            <div class="tags">
               <span class="tag">MESH</span>
               <span class="tag">SURVIVAL</span>
               <span class="tag">FREE</span>
+              <span class="tag">R15</span>
             </div>
             <div class="detail-desc">
-              Custom head mesh for the Trident Survival game mode in Roblox. Replaces the default player head with a high-fidelity mesh optimized for survival environments. Compatible with most avatar configurations.
-            </div>
-
-            <!-- REVIEWS -->
-            <div class="reviews-wrap">
-              <div class="reviews-hdr">Reviews</div>
-              <div id="reviews-list">
-                <div class="loading-reviews">// loading reviews...</div>
-              </div>
-              <div class="add-review">
-                <div class="add-review-title">Leave a Review</div>
-                <div class="review-input-row">
-                  <input class="r-input" id="r-name" type="text" placeholder="Your username" maxlength="32">
-                  <div class="stars-select" id="stars-wrap">
-                    <button class="star-btn on" onclick="setStar(1)">★</button>
-                    <button class="star-btn on" onclick="setStar(2)">★</button>
-                    <button class="star-btn on" onclick="setStar(3)">★</button>
-                    <button class="star-btn on" onclick="setStar(4)">★</button>
-                    <button class="star-btn on" onclick="setStar(5)">★</button>
-                  </div>
-                </div>
-                <textarea class="r-textarea" id="r-text" placeholder="Write your review..." maxlength="500"></textarea>
-                <button class="btn-post" id="btn-post" onclick="postReview()">POST REVIEW</button>
-              </div>
+              Custom head mesh replacement for the Trident Survival game mode in Roblox.
+              Drops into the standard avatar pipeline with zero config — place the file at the install path and reload.
+              Compatible with all R15 rigs and most avatar accessories.
             </div>
           </div>
 
-          <!-- RIGHT SIDEBAR -->
           <div class="detail-right">
             <div class="dl-box">
               <div class="dl-box-title">Download</div>
               <button class="btn-dl" id="btn-dl" onclick="startDownload()">↓ DOWNLOAD</button>
-              <div class="progress-wrap" id="progress-wrap">
-                <div class="progress-label" id="progress-label">0%</div>
-                <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+              <div class="progress-wrap" id="prog-wrap">
+                <div class="progress-lbl"><span>Downloading...</span><span id="prog-pct">0%</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
               </div>
-              <div class="file-info">
-                <div class="fi-row"><span class="k">File</span><span class="v">head.mesh</span></div>
-                <div class="fi-row"><span class="k">Path</span><span class="v">install/roblox/TSHEAD/</span></div>
-                <div class="fi-row"><span class="k">Size</span><span class="v">~14 KB</span></div>
+              <div class="dl-meta">
+                <div class="dl-meta-row"><span class="k">File</span><span class="v">head.mesh</span></div>
+                <div class="dl-meta-row"><span class="k">Folder</span><span class="v">install/roblox/TSHEAD/</span></div>
+                <div class="dl-meta-row"><span class="k">Size</span><span class="v">~14 KB</span></div>
               </div>
-              <div class="dl-count" id="dl-count">loading stats...</div>
+              <div class="dl-count">Downloads: <span id="dl-count">—</span></div>
             </div>
 
             <div class="meta-block">
-              <div class="meta-block-title">Details</div>
+              <div class="meta-head">Details</div>
               <div class="meta-row"><span class="mk">Version</span><span class="mv">1.0.0</span></div>
               <div class="meta-row"><span class="mk">Format</span><span class="mv">.mesh</span></div>
               <div class="meta-row"><span class="mk">Game</span><span class="mv">Roblox</span></div>
@@ -552,12 +254,9 @@
             </div>
 
             <div class="meta-block">
-              <div class="meta-block-title">Install Path</div>
+              <div class="meta-head">Install Path</div>
               <div class="path-box">
-                install/<br>
-                └── roblox/<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;└── TSHEAD/<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── head.mesh
+                install/<br>└─ roblox/<br>&nbsp;&nbsp;&nbsp;└─ TSHEAD/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ head.mesh
               </div>
             </div>
           </div>
@@ -565,38 +264,34 @@
       </div>
     </div>
 
-    <!-- CHAT VIEW -->
+    <!-- CHAT -->
     <div class="view" id="view-chat">
-      <div class="empty-state">
-        <div class="empty-icon">◉</div>
-        <div class="empty-text">// chat coming soon</div>
+      <div class="chat-placeholder">
+        <div class="chat-ph-icon">◉</div>
+        <div class="chat-ph-text">// chat — coming soon</div>
       </div>
     </div>
 
-    <!-- SETTINGS VIEW -->
+    <!-- SETTINGS -->
     <div class="view" id="view-settings">
-      <div class="settings-wrap">
-        <div class="settings-title">Settings</div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Auto-update addons</div>
-            <div class="setting-desc">Automatically check for new versions</div>
+      <div class="page-head">
+        <div class="page-title">Settings</div>
+        <div class="page-sub">Configure Workshop.IO</div>
+      </div>
+      <div class="scroll-area">
+        <div class="section">
+          <div class="setting-row">
+            <div><div class="setting-lbl">Auto-update addons</div><div class="setting-desc">Check for updates on startup</div></div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
           </div>
-          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-        </div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Dark theme</div>
-            <div class="setting-desc">Always on in Workshop.IO</div>
+          <div class="setting-row">
+            <div><div class="setting-lbl">Dark theme</div><div class="setting-desc">Always enabled in Workshop.IO</div></div>
+            <div class="toggle on"></div>
           </div>
-          <div class="toggle on"></div>
-        </div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Download notifications</div>
-            <div class="setting-desc">Show toast alerts on download</div>
+          <div class="setting-row">
+            <div><div class="setting-lbl">Download notifications</div><div class="setting-desc">Show toast when download completes</div></div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
           </div>
-          <div class="toggle" id="notif-toggle" onclick="this.classList.toggle('on')"></div>
         </div>
       </div>
     </div>
@@ -604,214 +299,91 @@
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── CONFIG ───
-const ADDON_ID = 'roblox-tshead';
+  const VIEWS=['games','roblox','detail','chat','settings'];
+  const NAV_IDX={games:0,roblox:0,detail:0,chat:1,settings:2};
 
-// ─── NAVIGATION ───
-const navMap = { games:0, roblox:0, detail:0, chat:1, settings:2 };
-
-function showView(id) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById('view-' + id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const idx = navMap[id];
-  if (idx !== undefined) document.querySelectorAll('.nav-item')[idx].classList.add('active');
-  if (id === 'detail') loadDetailData();
-}
-
-// ─── SERVER STATUS ───
-async function checkStatus() {
-  try {
-    await fetch('/api/stats/download/' + ADDON_ID);
-    document.getElementById('status-dot').classList.add('online');
-    document.getElementById('status-text').textContent = 'online';
-  } catch {
-    document.getElementById('status-text').textContent = 'offline';
+  function nav(id){
+    VIEWS.forEach(v=>document.getElementById('view-'+v).classList.remove('active'));
+    document.getElementById('view-'+id).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach((el,i)=>el.classList.toggle('active',i===NAV_IDX[id]));
+    if(id==='detail')loadDlCount();
   }
-}
-checkStatus();
 
-// ─── DOWNLOAD ───
-let dlState = 'idle';
+  const ADDON_ID='roblox-tshead';
+  let dlState='idle';
 
-async function startDownload() {
-  if (dlState !== 'idle') return;
-  dlState = 'loading';
+  async function loadDlCount(){
+    try{
+      const r=await fetch('/api/downloads/'+ADDON_ID);
+      const d=await r.json();
+      document.getElementById('dl-count').textContent=d.count;
+    }catch{document.getElementById('dl-count').textContent='—'}
+  }
 
-  const btn = document.getElementById('btn-dl');
-  const wrap = document.getElementById('progress-wrap');
-  const fill = document.getElementById('progress-fill');
-  const lbl  = document.getElementById('progress-label');
-
-  btn.classList.add('loading');
-  btn.innerHTML = '⟳ DOWNLOADING...';
-  wrap.classList.add('show');
-
-  // Animate progress bar
-  let pct = 0;
-  const iv = setInterval(() => {
-    pct += Math.random() * 12 + 3;
-    if (pct >= 100) {
-      pct = 100;
+  async function startDownload(){
+    if(dlState!=='idle')return;
+    dlState='loading';
+    const btn=document.getElementById('btn-dl');
+    const wrap=document.getElementById('prog-wrap');
+    const fill=document.getElementById('prog-fill');
+    const pct=document.getElementById('prog-pct');
+    btn.classList.add('loading');
+    btn.textContent='⟳ DOWNLOADING...';
+    wrap.classList.add('show');
+    let p=0;
+    const iv=setInterval(()=>{
+      p+=Math.random()*10+4;
+      if(p>=90){p=90;clearInterval(iv);}
+      fill.style.width=p+'%';
+      pct.textContent=Math.floor(p)+'%';
+    },100);
+    try{
+      const res=await fetch('/api/downloads/'+ADDON_ID,{method:'POST'});
+      if(!res.ok)throw new Error();
       clearInterval(iv);
-      fill.style.width = '100%';
-      lbl.textContent = '100%';
-
-      setTimeout(async () => {
-        // Log download to server
-        try {
-          const res = await fetch('/api/stats/download/' + ADDON_ID, { method: 'POST' });
-          const data = await res.json();
-          updateDlCount(data.total);
-        } catch {}
-
-        // Trigger actual file download
-        const a = document.createElement('a');
-        a.href = '/install/roblox/TSHEAD/head.mesh';
-        a.download = 'head.mesh';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        btn.classList.remove('loading');
-        btn.classList.add('done');
-        btn.innerHTML = '✓ DOWNLOADED';
-        dlState = 'done';
-        showToast('head.mesh downloaded successfully');
-      }, 300);
+      fill.style.width='100%';
+      pct.textContent='100%';
+      const blob=await res.blob();
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download='head.mesh';
+      document.body.appendChild(a);a.click();document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+      btn.classList.remove('loading');btn.classList.add('done');
+      btn.textContent='✓ DOWNLOADED';
+      dlState='done';
+      toast('head.mesh saved!');
+      loadDlCount();
+    }catch{
+      clearInterval(iv);
+      wrap.classList.remove('show');
+      btn.classList.remove('loading');
+      btn.textContent='↓ DOWNLOAD';
+      dlState='idle';
+      toast('Download failed',true);
     }
-    fill.style.width = pct + '%';
-    lbl.textContent = Math.floor(pct) + '%';
-  }, 100);
-}
-
-function updateDlCount(n) {
-  document.getElementById('dl-count').textContent = n + ' total downloads';
-}
-
-// ─── LOAD DETAIL DATA ───
-async function loadDetailData() {
-  await Promise.all([ loadReviews(), loadStats() ]);
-}
-
-async function loadStats() {
-  try {
-    const res = await fetch('/api/stats/download/' + ADDON_ID);
-    const data = await res.json();
-    updateDlCount(data.total);
-  } catch {
-    document.getElementById('dl-count').textContent = '— downloads';
   }
-}
 
-// ─── REVIEWS ───
-let selectedStars = 5;
-
-function setStar(n) {
-  selectedStars = n;
-  document.querySelectorAll('#stars-wrap .star-btn').forEach((btn, i) => {
-    btn.classList.toggle('on', i < n);
-  });
-}
-
-function starsStr(n) {
-  return '★'.repeat(n) + '☆'.repeat(5 - n);
-}
-
-function escH(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function renderReview(r) {
-  const initials = r.username.slice(0,1).toUpperCase();
-  const date = r.created_at ? r.created_at.slice(0,10) : '';
-  const div = document.createElement('div');
-  div.className = 'review-card';
-  div.innerHTML = `
-    <div class="review-top">
-      <div class="review-user">
-        <div class="review-avatar">${initials}</div>
-        <div class="review-uname">${escH(r.username)}</div>
-      </div>
-      <div class="review-right">
-        <div class="review-stars">${starsStr(r.stars)}</div>
-        <div class="review-date">${date}</div>
-      </div>
-    </div>
-    <div class="review-text">${escH(r.text)}</div>
-  `;
-  return div;
-}
-
-async function loadReviews() {
-  const list = document.getElementById('reviews-list');
-  list.innerHTML = '<div class="loading-reviews">// loading reviews...</div>';
-  try {
-    const res = await fetch('/api/reviews/' + ADDON_ID);
-    const data = await res.json();
-    list.innerHTML = '';
-    if (!data.reviews || data.reviews.length === 0) {
-      list.innerHTML = '<div class="loading-reviews">// no reviews yet. be the first!</div>';
-      return;
-    }
-    data.reviews.forEach(r => list.appendChild(renderReview(r)));
-  } catch {
-    list.innerHTML = '<div class="loading-reviews">// could not load reviews</div>';
+  function toast(msg,err=false){
+    const t=document.getElementById('toast');
+    t.textContent=msg;
+    t.className='toast show'+(err?' err':'');
+    clearTimeout(t._t);
+    t._t=setTimeout(()=>t.classList.remove('show'),3000);
   }
-}
 
-async function postReview() {
-  const username = document.getElementById('r-name').value.trim();
-  const text = document.getElementById('r-text').value.trim();
-
-  if (!username) { showToast('Enter your username', true); return; }
-  if (!text)     { showToast('Write something in the review', true); return; }
-
-  const btn = document.getElementById('btn-post');
-  btn.disabled = true;
-  btn.textContent = 'POSTING...';
-
-  try {
-    const res = await fetch('/api/reviews/' + ADDON_ID, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, stars: selectedStars, text })
+  fetch('/api/downloads/'+ADDON_ID)
+    .then(()=>{
+      document.getElementById('server-status').textContent='online';
+      document.getElementById('status-dot').style.background='#3a3';
+    })
+    .catch(()=>{
+      document.getElementById('server-status').textContent='offline';
+      document.getElementById('status-dot').style.background='#e57373';
     });
-    const data = await res.json();
-    if (!data.success) throw new Error(data.error);
-
-    // Add new review to top of list
-    const list = document.getElementById('reviews-list');
-    const placeholder = list.querySelector('.loading-reviews');
-    if (placeholder) placeholder.remove();
-    list.insertBefore(renderReview(data.review), list.firstChild);
-
-    // Reset form
-    document.getElementById('r-name').value = '';
-    document.getElementById('r-text').value = '';
-    setStar(5);
-    showToast('Review posted!');
-  } catch (e) {
-    showToast('Failed to post: ' + e.message, true);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'POST REVIEW';
-  }
-}
-
-// ─── TOAST ───
-let toastTimer;
-function showToast(msg, isError = false) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast show' + (isError ? ' error' : '');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
-}
 </script>
 </body>
 </html>
