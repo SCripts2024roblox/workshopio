@@ -9,15 +9,21 @@
   :root{--bg:#0a0a0a;--bg2:#111111;--bg3:#1a1a1a;--bg4:#222222;--border:#2a2a2a;--border2:#333333;--text:#f0f0f0;--text2:#999999;--text3:#444444;--accent:#ffffff}
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+  /* TOPBAR */
   .topbar{display:flex;align-items:center;height:48px;padding:0 20px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;gap:14px}
-  .logo{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.07em;color:var(--accent);white-space:nowrap;user-select:none}
+  .logo{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.07em;color:var(--accent);user-select:none}
   .logo em{color:var(--text3);font-style:normal}
   .topbar-search{flex:1;max-width:320px;height:28px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);padding:0 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color .15s}
   .topbar-search::placeholder{color:var(--text3)}
   .topbar-search:focus{border-color:var(--border2)}
   .topbar-right{margin-left:auto}
-  .topbar-chip{height:26px;padding:0 10px;background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--text3);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.05em;display:flex;align-items:center}
+  .topbar-chip{height:26px;padding:0 10px;background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--text3);font-family:'Space Mono',monospace;font-size:10px;display:flex;align-items:center}
+
+  /* LAYOUT */
   .layout{display:flex;flex:1;overflow:hidden}
+
+  /* SIDEBAR */
   .sidebar{width:196px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;padding:14px 10px;gap:2px}
   .sidebar-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;color:var(--text3);text-transform:uppercase;padding:10px 8px 5px}
   .nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:5px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .12s;user-select:none}
@@ -27,7 +33,9 @@
   .nav-item.active .nav-icon{opacity:1}
   .sidebar-bottom{margin-top:auto;padding:10px 8px 0;border-top:1px solid var(--border)}
   .sidebar-status{font-size:10px;color:var(--text3);font-family:'Space Mono',monospace;display:flex;align-items:center;gap:6px}
-  .status-dot{width:6px;height:6px;border-radius:50%;background:#888;flex-shrink:0}
+  .status-dot{width:6px;height:6px;border-radius:50%;background:#888;flex-shrink:0;transition:background .3s}
+
+  /* MAIN */
   .main{flex:1;overflow:hidden;display:flex;flex-direction:column}
   .view{display:none;flex-direction:column;height:100%;overflow:hidden}
   .view.active{display:flex}
@@ -35,61 +43,70 @@
   .scroll-area::-webkit-scrollbar{width:4px}
   .scroll-area::-webkit-scrollbar-track{background:transparent}
   .scroll-area::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+  /* PAGE HEAD */
   .page-head{padding:22px 26px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
   .page-title{font-family:'Space Mono',monospace;font-size:17px;font-weight:700;letter-spacing:.03em;margin-bottom:3px}
   .page-sub{font-size:12px;color:var(--text3)}
   .section{padding:20px 26px}
   .section-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;color:var(--text3);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-  .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
-  .game-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;cursor:pointer;transition:all .14s}
-  .game-card:hover{border-color:var(--border2);transform:translateY(-2px)}
-  .game-thumb{height:88px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:22px;font-weight:700;color:var(--text3)}
-  .game-info{padding:10px}
-  .game-name{font-size:12px;font-weight:700;margin-bottom:2px}
-  .game-meta{font-size:10px;color:var(--text3)}
+
+  /* CARDS GRID */
+  .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
+  .card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;cursor:pointer;transition:all .14s}
+  .card:hover{border-color:var(--border2);transform:translateY(-2px)}
+  .card-thumb{height:88px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+  .card-thumb img{width:100%;height:100%;object-fit:cover;opacity:.7}
+  .card-thumb-label{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:var(--text3);position:absolute}
+  .card-info{padding:10px}
+  .card-name{font-size:12px;font-weight:700;margin-bottom:2px}
+  .card-meta{font-size:10px;color:var(--text3)}
+
+  /* VIEW HEAD */
   .view-head{padding:16px 26px;border-bottom:1px solid var(--border);flex-shrink:0}
-  .breadcrumb{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);margin-bottom:12px}
+  .breadcrumb{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);margin-bottom:12px;flex-wrap:wrap}
   .breadcrumb a{color:var(--text2);cursor:pointer}
   .breadcrumb a:hover{color:var(--text)}
   .game-header-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-  .game-badge{width:38px;height:38px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--text2)}
+  .game-badge{width:38px;height:38px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--text2);overflow:hidden;flex-shrink:0}
+  .game-badge img{width:100%;height:100%;object-fit:cover;opacity:.8}
   .game-view-name{font-family:'Space Mono',monospace;font-size:15px;font-weight:700}
   .tabs{display:flex}
   .tab{padding:7px 14px;font-size:12px;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all .12s;user-select:none}
   .tab:hover{color:var(--text2)}
   .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-  .addons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px;padding:20px 26px}
-  .addon-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;cursor:pointer;transition:all .14s}
-  .addon-card:hover{border-color:var(--border2);transform:translateY(-2px)}
-  .addon-thumb{height:100px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center}
-  .addon-thumb-txt{font-family:'Space Mono',monospace;font-size:10px;color:var(--text3);text-align:center;line-height:1.8;letter-spacing:.06em}
-  .addon-info{padding:10px}
-  .addon-name{font-size:12px;font-weight:700;margin-bottom:2px}
-  .addon-meta{font-size:10px;color:var(--text3)}
-  .detail-banner{width:100%;height:154px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0}
-  .banner-grid{position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 28px,var(--border) 28px,var(--border) 29px),repeating-linear-gradient(90deg,transparent,transparent 28px,var(--border) 28px,var(--border) 29px);opacity:.25}
-  .banner-center{position:relative;z-index:1;text-align:center}
-  .banner-title{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--text3);letter-spacing:.1em}
-  .banner-hint{font-size:11px;color:var(--text3);margin-top:4px;letter-spacing:.06em}
-  .banner-corner{position:absolute;bottom:10px;right:16px;font-size:10px;color:var(--text3);font-family:'Space Mono',monospace}
+
+  /* ADDON CARDS (slightly taller thumb) */
+  .addon-card-thumb{height:106px}
+
+  /* DETAIL VIEW */
+  .detail-banner{width:100%;height:160px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0}
+  .banner-grid{position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 28px,var(--border) 28px,var(--border) 29px),repeating-linear-gradient(90deg,transparent,transparent 28px,var(--border) 28px,var(--border) 29px);opacity:.2}
+  .banner-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5}
+  .banner-center{position:relative;z-index:1;text-align:center;padding:0 20px}
+  .banner-title{font-family:'Space Mono',monospace;font-size:24px;font-weight:700;color:var(--text);letter-spacing:.08em;text-shadow:0 2px 12px rgba(0,0,0,.8)}
+  .banner-hint{font-size:11px;color:var(--text2);margin-top:4px;letter-spacing:.06em}
+
   .detail-body{display:flex;gap:0;padding:24px 26px}
   .detail-left{flex:1;min-width:0;padding-right:24px}
   .detail-right{width:232px;flex-shrink:0;border-left:1px solid var(--border);padding-left:24px}
-  .detail-bc{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);margin-bottom:14px}
+
+  .detail-bc{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);margin-bottom:14px;flex-wrap:wrap}
   .detail-bc a{color:var(--text2);cursor:pointer}
   .detail-bc a:hover{color:var(--text)}
   .detail-title{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;line-height:1.2;margin-bottom:5px}
   .detail-byline{font-size:12px;color:var(--text3);margin-bottom:14px}
   .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
   .tag{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:2px 8px;font-size:10px;color:var(--text2);font-family:'Space Mono',monospace;letter-spacing:.04em}
-  .detail-desc{font-size:13px;line-height:1.75;color:var(--text2)}
+
+  /* DOWNLOAD BOX */
   .dl-box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:14px}
   .dl-box-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--text3);text-transform:uppercase;margin-bottom:10px}
   .btn-dl{width:100%;height:40px;background:var(--accent);border:none;border-radius:5px;color:#000;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.08em;cursor:pointer;transition:all .13s;display:flex;align-items:center;justify-content:center;gap:7px}
   .btn-dl:hover{background:#ddd;transform:translateY(-1px)}
-  .btn-dl:active{transform:translateY(0)}
   .btn-dl.loading{background:var(--bg3);color:var(--text2);border:1px solid var(--border);cursor:default;transform:none}
   .btn-dl.done{background:var(--bg3);color:#4caf50;border:1px solid #2a4a2a;cursor:default}
+  .btn-dl:disabled{cursor:default}
   .progress-wrap{display:none;margin-top:10px}
   .progress-wrap.show{display:block}
   .progress-lbl{font-size:10px;color:var(--text3);font-family:'Space Mono',monospace;margin-bottom:4px;display:flex;justify-content:space-between}
@@ -99,17 +116,22 @@
   .dl-meta-row{display:flex;justify-content:space-between;font-size:11px}
   .dl-meta-row .k{color:var(--text3)}
   .dl-meta-row .v{color:var(--text2);font-family:'Space Mono',monospace;font-size:10px}
-  .dl-count{margin-top:12px;font-size:11px;color:var(--text3);font-family:'Space Mono',monospace;text-align:center}
+  .dl-count{margin-top:10px;font-size:11px;color:var(--text3);font-family:'Space Mono',monospace;text-align:center}
   .dl-count span{color:var(--text2)}
+
+  /* META SIDEBAR */
   .meta-block{margin-bottom:16px}
   .meta-head{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--text3);text-transform:uppercase;margin-bottom:8px}
   .meta-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:11px}
   .meta-row .mk{color:var(--text3)}
-  .meta-row .mv{color:var(--text2);font-family:'Space Mono',monospace}
-  .path-box{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:'Space Mono',monospace;font-size:10px;color:var(--text2);line-height:1.9}
-  .chat-placeholder{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
-  .chat-ph-icon{font-size:30px;color:var(--text3)}
-  .chat-ph-text{font-size:12px;color:var(--text3);font-family:'Space Mono',monospace;letter-spacing:.06em}
+  .meta-row .mv{color:var(--text2);font-family:'Space Mono',monospace;word-break:break-all;text-align:right;max-width:130px}
+
+  /* CHAT / EMPTY */
+  .center-placeholder{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+  .center-ph-icon{font-size:30px;color:var(--text3)}
+  .center-ph-text{font-size:12px;color:var(--text3);font-family:'Space Mono',monospace;letter-spacing:.06em}
+
+  /* SETTINGS */
   .setting-row{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--border)}
   .setting-lbl{font-size:13px}
   .setting-desc{font-size:11px;color:var(--text3);margin-top:2px}
@@ -117,27 +139,34 @@
   .toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;background:var(--text3);border-radius:50%;transition:all .15s}
   .toggle.on{background:#2a3a2a;border-color:#3a5a3a}
   .toggle.on::after{left:18px;background:#4caf50}
+
+  /* TOAST */
   .toast{position:fixed;bottom:22px;right:22px;background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:9px 15px;font-size:12px;font-family:'Space Mono',monospace;color:var(--text2);z-index:999;transform:translateY(50px);opacity:0;transition:all .2s;pointer-events:none}
   .toast.show{transform:translateY(0);opacity:1}
   .toast.err{border-color:#5a2a2a;color:#e57373}
+
+  /* LOADING */
+  .skeleton{background:var(--bg3);border-radius:4px;animation:pulse 1.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:.6}}
+  .loading-card{height:130px}
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="logo">Workshop<em>.IO</em></div>
-  <input class="topbar-search" type="text" placeholder="Search games, addons...">
+  <input class="topbar-search" type="text" placeholder="Search..." oninput="onSearch(this.value)">
   <div class="topbar-right">
-    <div class="topbar-chip">v0.1.0-beta</div>
+    <div class="topbar-chip">v0.2.0</div>
   </div>
 </div>
 
 <div class="layout">
   <div class="sidebar">
     <div class="sidebar-label">Menu</div>
-    <div class="nav-item active" onclick="nav('games')"><span class="nav-icon">◈</span> Games</div>
-    <div class="nav-item" onclick="nav('chat')"><span class="nav-icon">◉</span> Chat</div>
-    <div class="nav-item" onclick="nav('settings')"><span class="nav-icon">◎</span> Settings</div>
+    <div class="nav-item active" onclick="showTab('games')"><span class="nav-icon">◈</span> Games</div>
+    <div class="nav-item" onclick="showTab('chat')"><span class="nav-icon">◉</span> Chat</div>
+    <div class="nav-item" onclick="showTab('settings')"><span class="nav-icon">◎</span> Settings</div>
     <div class="sidebar-bottom">
       <div class="sidebar-status">
         <div class="status-dot" id="status-dot"></div>
@@ -148,84 +177,60 @@
 
   <div class="main">
 
-    <!-- GAMES -->
+    <!-- GAMES LIST -->
     <div class="view active" id="view-games">
       <div class="page-head">
         <div class="page-title">Games</div>
-        <div class="page-sub">Browse games and manage addons</div>
+        <div class="page-sub">Browse all available games</div>
       </div>
       <div class="scroll-area">
         <div class="section">
           <div class="section-title">Library</div>
-          <div class="games-grid">
-            <div class="game-card" onclick="nav('roblox')">
-              <div class="game-thumb">RBX</div>
-              <div class="game-info">
-                <div class="game-name">Roblox</div>
-                <div class="game-meta">1 addon available</div>
-              </div>
-            </div>
+          <div class="cards-grid" id="games-grid">
+            <div class="skeleton loading-card"></div>
+            <div class="skeleton loading-card"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ROBLOX -->
-    <div class="view" id="view-roblox">
+    <!-- ADDONS LIST (per game) -->
+    <div class="view" id="view-addons">
       <div class="view-head">
-        <div class="breadcrumb"><a onclick="nav('games')">← Games</a> / <span>Roblox</span></div>
+        <div class="breadcrumb">
+          <a onclick="showTab('games')">← Games</a> /
+          <span id="bc-game">—</span>
+        </div>
         <div class="game-header-row">
-          <div class="game-badge">RBX</div>
-          <div class="game-view-name">Roblox</div>
+          <div class="game-badge" id="game-badge-icon">?</div>
+          <div class="game-view-name" id="game-view-name">—</div>
         </div>
         <div class="tabs"><div class="tab active">All Addons</div></div>
       </div>
       <div class="scroll-area">
-        <div class="addons-grid">
-          <div class="addon-card" onclick="nav('detail')">
-            <div class="addon-thumb">
-              <div class="addon-thumb-txt">TRIDENT<br>SURVIVAL<br>— HEAD —</div>
-            </div>
-            <div class="addon-info">
-              <div class="addon-name">Head for Trident Survival</div>
-              <div class="addon-meta">head.mesh · free</div>
-            </div>
-          </div>
-        </div>
+        <div class="cards-grid" id="addons-grid" style="padding:20px 26px"></div>
       </div>
     </div>
 
-    <!-- DETAIL -->
+    <!-- ADDON DETAIL -->
     <div class="view" id="view-detail">
-      <div class="detail-banner">
+      <!-- Banner -->
+      <div class="detail-banner" id="detail-banner">
         <div class="banner-grid"></div>
+        <img class="banner-img" id="banner-img" src="" alt="" style="display:none" onerror="this.style.display='none'">
         <div class="banner-center">
-          <div class="banner-title">TRIDENT SURVIVAL</div>
-          <div class="banner-hint">Head Mesh · Roblox</div>
+          <div class="banner-title" id="banner-title">—</div>
+          <div class="banner-hint" id="banner-hint">—</div>
         </div>
-        <div class="banner-corner">NO IMAGE YET</div>
       </div>
+
       <div class="scroll-area">
         <div class="detail-body">
           <div class="detail-left">
-            <div class="detail-bc">
-              <a onclick="nav('games')">Games</a> /
-              <a onclick="nav('roblox')">Roblox</a> /
-              <span>Head for Trident Survival</span>
-            </div>
-            <div class="detail-title">Head for Trident Survival</div>
-            <div class="detail-byline">by Workshop.IO · Roblox addon</div>
-            <div class="tags">
-              <span class="tag">MESH</span>
-              <span class="tag">SURVIVAL</span>
-              <span class="tag">FREE</span>
-              <span class="tag">R15</span>
-            </div>
-            <div class="detail-desc">
-              Custom head mesh replacement for the Trident Survival game mode in Roblox.
-              Drops into the standard avatar pipeline with zero config — place the file at the install path and reload.
-              Compatible with all R15 rigs and most avatar accessories.
-            </div>
+            <div class="detail-bc" id="detail-bc"></div>
+            <div class="detail-title" id="detail-title">—</div>
+            <div class="detail-byline" id="detail-byline">—</div>
+            <div class="tags" id="detail-tags"></div>
           </div>
 
           <div class="detail-right">
@@ -236,28 +241,13 @@
                 <div class="progress-lbl"><span>Downloading...</span><span id="prog-pct">0%</span></div>
                 <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
               </div>
-              <div class="dl-meta">
-                <div class="dl-meta-row"><span class="k">File</span><span class="v">head.mesh</span></div>
-                <div class="dl-meta-row"><span class="k">Folder</span><span class="v">install/roblox/TSHEAD/</span></div>
-                <div class="dl-meta-row"><span class="k">Size</span><span class="v">~14 KB</span></div>
-              </div>
+              <div class="dl-meta" id="dl-meta"></div>
               <div class="dl-count">Downloads: <span id="dl-count">—</span></div>
             </div>
 
-            <div class="meta-block">
+            <div class="meta-block" id="detail-meta-block">
               <div class="meta-head">Details</div>
-              <div class="meta-row"><span class="mk">Version</span><span class="mv">1.0.0</span></div>
-              <div class="meta-row"><span class="mk">Format</span><span class="mv">.mesh</span></div>
-              <div class="meta-row"><span class="mk">Game</span><span class="mv">Roblox</span></div>
-              <div class="meta-row"><span class="mk">Mode</span><span class="mv">Trident Survival</span></div>
-              <div class="meta-row"><span class="mk">Updated</span><span class="mv">2025-02</span></div>
-            </div>
-
-            <div class="meta-block">
-              <div class="meta-head">Install Path</div>
-              <div class="path-box">
-                install/<br>└─ roblox/<br>&nbsp;&nbsp;&nbsp;└─ TSHEAD/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ head.mesh
-              </div>
+              <div id="detail-meta-rows"></div>
             </div>
           </div>
         </div>
@@ -266,9 +256,9 @@
 
     <!-- CHAT -->
     <div class="view" id="view-chat">
-      <div class="chat-placeholder">
-        <div class="chat-ph-icon">◉</div>
-        <div class="chat-ph-text">// chat — coming soon</div>
+      <div class="center-placeholder">
+        <div class="center-ph-icon">◉</div>
+        <div class="center-ph-text">// chat — coming soon</div>
       </div>
     </div>
 
@@ -285,11 +275,11 @@
             <div class="toggle on" onclick="this.classList.toggle('on')"></div>
           </div>
           <div class="setting-row">
-            <div><div class="setting-lbl">Dark theme</div><div class="setting-desc">Always enabled in Workshop.IO</div></div>
+            <div><div class="setting-lbl">Dark theme</div><div class="setting-desc">Always enabled</div></div>
             <div class="toggle on"></div>
           </div>
           <div class="setting-row">
-            <div><div class="setting-lbl">Download notifications</div><div class="setting-desc">Show toast when download completes</div></div>
+            <div><div class="setting-lbl">Download notifications</div><div class="setting-desc">Toast on complete</div></div>
             <div class="toggle on" onclick="this.classList.toggle('on')"></div>
           </div>
         </div>
@@ -302,88 +292,269 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  const VIEWS=['games','roblox','detail','chat','settings'];
-  const NAV_IDX={games:0,roblox:0,detail:0,chat:1,settings:2};
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let catalog       = [];   // [{id, name, icon, addons:[...]}]
+let currentGame   = null; // game object
+let currentAddon  = null; // addon object
+let dlState       = 'idle';
 
-  function nav(id){
-    VIEWS.forEach(v=>document.getElementById('view-'+v).classList.remove('active'));
-    document.getElementById('view-'+id).classList.add('active');
-    document.querySelectorAll('.nav-item').forEach((el,i)=>el.classList.toggle('active',i===NAV_IDX[id]));
-    if(id==='detail')loadDlCount();
+/* ═══════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════ */
+const ALL_VIEWS = ['games','addons','detail','chat','settings'];
+const NAV_IDX   = {games:0, addons:0, detail:0, chat:1, settings:2};
+
+function showTab(id) {
+  ALL_VIEWS.forEach(v => document.getElementById('view-'+v).classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach((el,i) => {
+    el.classList.toggle('active', i === NAV_IDX[id]);
+  });
+}
+
+/* ═══════════════════════════════════════
+   LOAD CATALOG
+═══════════════════════════════════════ */
+async function loadCatalog() {
+  try {
+    const res = await fetch('/api/catalog');
+    catalog = await res.json();
+    renderGames(catalog);
+    setStatus(true);
+  } catch {
+    setStatus(false);
+    document.getElementById('games-grid').innerHTML =
+      '<div style="color:var(--text3);font-size:12px;font-family:Space Mono,monospace;padding:4px">Failed to load catalog</div>';
+  }
+}
+
+/* ═══════════════════════════════════════
+   RENDER GAMES
+═══════════════════════════════════════ */
+function renderGames(games) {
+  const grid = document.getElementById('games-grid');
+  if (!games.length) {
+    grid.innerHTML = '<div style="color:var(--text3);font-size:12px;font-family:Space Mono,monospace">No games found.<br>Add folders to install/</div>';
+    return;
+  }
+  grid.innerHTML = '';
+  games.forEach(g => {
+    const initials = g.name.slice(0,3).toUpperCase();
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = () => openGame(g);
+    card.innerHTML = `
+      <div class="card-thumb">
+        ${g.icon ? `<img src="${g.icon}" alt="" onerror="this.style.display='none'">` : ''}
+        <span class="card-thumb-label">${initials}</span>
+      </div>
+      <div class="card-info">
+        <div class="card-name">${esc(g.name)}</div>
+        <div class="card-meta">${g.addons.length} addon${g.addons.length!==1?'s':''}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+/* ═══════════════════════════════════════
+   OPEN GAME → show addons
+═══════════════════════════════════════ */
+function openGame(game) {
+  currentGame = game;
+
+  document.getElementById('bc-game').textContent = game.name;
+  document.getElementById('game-view-name').textContent = game.name;
+
+  const badge = document.getElementById('game-badge-icon');
+  if (game.icon) {
+    badge.innerHTML = `<img src="${game.icon}" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.8" onerror="this.parentElement.textContent='${game.name.slice(0,3).toUpperCase()}'">`;
+  } else {
+    badge.textContent = game.name.slice(0,3).toUpperCase();
   }
 
-  const ADDON_ID='roblox-tshead';
-  let dlState='idle';
-
-  async function loadDlCount(){
-    try{
-      const r=await fetch('/api/downloads/'+ADDON_ID);
-      const d=await r.json();
-      document.getElementById('dl-count').textContent=d.count;
-    }catch{document.getElementById('dl-count').textContent='—'}
-  }
-
-  async function startDownload(){
-    if(dlState!=='idle')return;
-    dlState='loading';
-    const btn=document.getElementById('btn-dl');
-    const wrap=document.getElementById('prog-wrap');
-    const fill=document.getElementById('prog-fill');
-    const pct=document.getElementById('prog-pct');
-    btn.classList.add('loading');
-    btn.textContent='⟳ DOWNLOADING...';
-    wrap.classList.add('show');
-    let p=0;
-    const iv=setInterval(()=>{
-      p+=Math.random()*10+4;
-      if(p>=90){p=90;clearInterval(iv);}
-      fill.style.width=p+'%';
-      pct.textContent=Math.floor(p)+'%';
-    },100);
-    try{
-      const res=await fetch('/api/downloads/'+ADDON_ID,{method:'POST'});
-      if(!res.ok)throw new Error();
-      clearInterval(iv);
-      fill.style.width='100%';
-      pct.textContent='100%';
-      const blob=await res.blob();
-      const a=document.createElement('a');
-      a.href=URL.createObjectURL(blob);
-      a.download='head.mesh';
-      document.body.appendChild(a);a.click();document.body.removeChild(a);
-      URL.revokeObjectURL(a.href);
-      btn.classList.remove('loading');btn.classList.add('done');
-      btn.textContent='✓ DOWNLOADED';
-      dlState='done';
-      toast('head.mesh saved!');
-      loadDlCount();
-    }catch{
-      clearInterval(iv);
-      wrap.classList.remove('show');
-      btn.classList.remove('loading');
-      btn.textContent='↓ DOWNLOAD';
-      dlState='idle';
-      toast('Download failed',true);
-    }
-  }
-
-  function toast(msg,err=false){
-    const t=document.getElementById('toast');
-    t.textContent=msg;
-    t.className='toast show'+(err?' err':'');
-    clearTimeout(t._t);
-    t._t=setTimeout(()=>t.classList.remove('show'),3000);
-  }
-
-  fetch('/api/downloads/'+ADDON_ID)
-    .then(()=>{
-      document.getElementById('server-status').textContent='online';
-      document.getElementById('status-dot').style.background='#3a3';
-    })
-    .catch(()=>{
-      document.getElementById('server-status').textContent='offline';
-      document.getElementById('status-dot').style.background='#e57373';
+  const grid = document.getElementById('addons-grid');
+  grid.innerHTML = '';
+  if (!game.addons.length) {
+    grid.innerHTML = '<div style="color:var(--text3);font-size:12px;font-family:Space Mono,monospace">No addons yet.</div>';
+  } else {
+    game.addons.forEach(a => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.onclick = () => openAddon(a, game);
+      card.innerHTML = `
+        <div class="card-thumb addon-card-thumb">
+          ${a.icon ? `<img src="${a.icon}" alt="" onerror="this.style.display='none'">` : ''}
+          <span class="card-thumb-label" style="font-size:10px;letter-spacing:.08em">${esc(a.name.toUpperCase())}</span>
+        </div>
+        <div class="card-info">
+          <div class="card-name">${esc(a.name)}</div>
+          <div class="card-meta">${a.file ? esc(a.file) : 'no file'} · free</div>
+        </div>`;
+      grid.appendChild(card);
     });
+  }
+
+  showTab('addons');
+}
+
+/* ═══════════════════════════════════════
+   OPEN ADDON → detail page
+═══════════════════════════════════════ */
+function openAddon(addon, game) {
+  currentAddon = addon;
+  dlState = 'idle';
+
+  // Banner
+  const bannerImg = document.getElementById('banner-img');
+  if (addon.banner) {
+    bannerImg.src = addon.banner;
+    bannerImg.style.display = 'block';
+  } else {
+    bannerImg.style.display = 'none';
+  }
+  document.getElementById('banner-title').textContent = addon.name.toUpperCase();
+  document.getElementById('banner-hint').textContent = `${game.name} · Addon`;
+
+  // Breadcrumb
+  document.getElementById('detail-bc').innerHTML =
+    `<a onclick="showTab('games')">Games</a> /
+     <a onclick="openGame(currentGame)">${esc(game.name)}</a> /
+     <span>${esc(addon.name)}</span>`;
+
+  document.getElementById('detail-title').textContent = addon.name;
+  document.getElementById('detail-byline').textContent = `${game.name} · Workshop.IO`;
+
+  // Tags
+  const tags = document.getElementById('detail-tags');
+  const ext = addon.file ? addon.file.split('.').pop().toUpperCase() : '';
+  tags.innerHTML = [ext, game.name.toUpperCase(), 'FREE']
+    .filter(Boolean)
+    .map(t => `<span class="tag">${esc(t)}</span>`).join('');
+
+  // Download meta
+  document.getElementById('dl-meta').innerHTML = `
+    <div class="dl-meta-row"><span class="k">File</span><span class="v">${esc(addon.file || '—')}</span></div>
+    <div class="dl-meta-row"><span class="k">Game</span><span class="v">${esc(game.name)}</span></div>`;
+  document.getElementById('dl-count').textContent = addon.downloads;
+
+  // Detail meta
+  document.getElementById('detail-meta-rows').innerHTML = `
+    <div class="meta-row"><span class="mk">Game</span><span class="mv">${esc(game.name)}</span></div>
+    <div class="meta-row"><span class="mk">Addon</span><span class="mv">${esc(addon.name)}</span></div>
+    <div class="meta-row"><span class="mk">File</span><span class="mv">${esc(addon.file||'—')}</span></div>
+    <div class="meta-row"><span class="mk">Format</span><span class="mv">.${ext.toLowerCase()||'—'}</span></div>`;
+
+  // Reset download button
+  const btn = document.getElementById('btn-dl');
+  btn.className = 'btn-dl';
+  btn.textContent = '↓ DOWNLOAD';
+  btn.disabled = !addon.file;
+  if (!addon.file) { btn.textContent = 'NO FILE'; btn.classList.add('loading'); }
+
+  document.getElementById('prog-wrap').classList.remove('show');
+  document.getElementById('prog-fill').style.width = '0%';
+
+  showTab('detail');
+}
+
+/* ═══════════════════════════════════════
+   DOWNLOAD
+═══════════════════════════════════════ */
+async function startDownload() {
+  if (dlState !== 'idle' || !currentAddon || !currentAddon.file) return;
+  dlState = 'loading';
+
+  const btn  = document.getElementById('btn-dl');
+  const wrap = document.getElementById('prog-wrap');
+  const fill = document.getElementById('prog-fill');
+  const pct  = document.getElementById('prog-pct');
+
+  btn.classList.add('loading');
+  btn.textContent = '⟳ DOWNLOADING...';
+  wrap.classList.add('show');
+
+  let p = 0;
+  const iv = setInterval(() => {
+    p += Math.random() * 10 + 4;
+    if (p >= 90) { p = 90; clearInterval(iv); }
+    fill.style.width = p + '%';
+    pct.textContent = Math.floor(p) + '%';
+  }, 100);
+
+  try {
+    const url = `/api/downloads/${currentAddon.game}/${currentAddon.name}`;
+    const res = await fetch(url, { method: 'POST' });
+    if (!res.ok) throw new Error();
+
+    clearInterval(iv);
+    fill.style.width = '100%';
+    pct.textContent = '100%';
+
+    const blob = await res.blob();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = currentAddon.file;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+
+    btn.classList.remove('loading'); btn.classList.add('done');
+    btn.textContent = '✓ DOWNLOADED';
+    dlState = 'done';
+    currentAddon.downloads++;
+    document.getElementById('dl-count').textContent = currentAddon.downloads;
+    toast(currentAddon.file + ' saved!');
+  } catch {
+    clearInterval(iv);
+    wrap.classList.remove('show');
+    btn.classList.remove('loading');
+    btn.textContent = '↓ DOWNLOAD';
+    dlState = 'idle';
+    toast('Download failed', true);
+  }
+}
+
+/* ═══════════════════════════════════════
+   SEARCH
+═══════════════════════════════════════ */
+function onSearch(q) {
+  q = q.toLowerCase().trim();
+  if (!q) { renderGames(catalog); return; }
+  const filtered = catalog
+    .map(g => ({
+      ...g,
+      addons: g.addons.filter(a => a.name.toLowerCase().includes(q))
+    }))
+    .filter(g => g.name.toLowerCase().includes(q) || g.addons.length);
+  renderGames(filtered);
+  if (document.getElementById('view-games').classList.contains('active') === false) {
+    showTab('games');
+  }
+}
+
+/* ═══════════════════════════════════════
+   UTILS
+═══════════════════════════════════════ */
+function setStatus(ok) {
+  document.getElementById('server-status').textContent = ok ? 'online' : 'offline';
+  document.getElementById('status-dot').style.background = ok ? '#3a3' : '#e57373';
+}
+
+function toast(msg, err=false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (err ? ' err' : '');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Boot
+loadCatalog();
 </script>
 </body>
 </html>
