@@ -1,0 +1,27 @@
+# Workshop.IO — head.mesh
+# Addon: Head for Trident Survival
+# Game:  Roblox
+# Path:  install/roblox/TSHEAD/head.mesh
+# Version: 1.0.0
+# Format: mesh/text (placeholder for binary asset)
+
+[mesh]
+name=TridentSurvivalHead
+type=custom_head
+vertices=256
+faces=512
+
+[geometry]
+v 0.000 1.000 0.000
+v 0.866 -0.500 0.000
+v -0.866 -0.500 0.000
+v 0.000 0.000 1.000
+f 1 2 3
+f 1 2 4
+f 2 3 4
+f 1 3 4
+
+[metadata]
+author=Workshop.IO
+compatible_modes=trident_survival
+rig=standard_r15
